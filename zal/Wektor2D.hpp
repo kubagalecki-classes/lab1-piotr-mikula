@@ -2,7 +2,7 @@ class Wektor2D
 {
   public:
     Wektor2D(){x = 0; y = 0;}
-    Wektor2D(double nowe_X, dobule nowe_Y)
+    Wektor2D(double nowe_X, double nowe_Y)
     {
       x = nowe_X;
       y = nowe_Y;

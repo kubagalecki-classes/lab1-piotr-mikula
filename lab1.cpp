@@ -3,6 +3,14 @@
 
 using namespace std;
 
+class Informer
+{
+public:
+    Informer() { cout << "Konstruuje konstruktor" << endl; }
+
+    ~Informer() { cout << "Destrukcja!" << endl; }
+};
+
 class Wektor2D
 {
 public:
@@ -11,6 +19,9 @@ public:
     {
         ++num_wek;
         cout << "Liczba wektorow: " << num_wek << endl;
+        x = 0;
+        y = 0;
+        // Informer no_name;
     }
 
     Wektor2D(double xx, double yy)
@@ -20,6 +31,7 @@ public:
         x = xx;
         y = yy;
         cout << "x = " << xx << " y = " << yy << endl;
+        // Informer no_name;
     }
 
     ~Wektor2D()
@@ -51,40 +63,16 @@ private:
 
 int Wektor2D::num_wek = 0;
 
-class Informer
+Wektor2D operator+(Wektor2D wek1, Wektor2D wek2)
 {
-public:
-    Informer() { cout << "Konstruuje konstruktor domyslny" << endl; }
-
-    ~Informer() { cout << "Destrukcja!" << endl; }
-};
-
-class Algebra
-{
-public:
-    Algebra(){};
-    Algebra(Wektor2D w1, Wektor2D w2)
-    {
-        wektor1 = w1;
-        wektor2 = w2;
-    }
-    Wektor2D wektor1;
-    Wektor2D wektor2;
-};
-
-Algebra operator+(Wektor2D wek1, Wektor2D wek2)
-{
-    double sumX = wek1.getX() + wek2.getX();
-    double sumY = wek1.getY() + wek2.getY();
-    cout << "Suma dwoch wektorow to [" << sumX << ", " << sumY << "]" << endl;
-    return Algebra{wek1, wek2};
+    double x = wek1.getX() + wek2.getX();
+    double y = wek1.getY() + wek2.getY();
+    return Wektor2D{x, y};
 }
 
-Algebra operator*(Wektor2D wek1, Wektor2D wek2)
+double operator*(Wektor2D wek1, Wektor2D wek2)
 {
-    double mnozenie = wek1.getX() * wek1.getY() + wek2.getX() * wek2.getY();
-    cout << "Iloczyn dwoch wektorow to " << mnozenie << endl;
-    return Algebra{wek1, wek2};
+    return wek1.getX() * wek2.getX() + wek1.getY() * wek2.getY();
 }
 
 int main()
@@ -93,21 +81,20 @@ int main()
     // wektor.y = 4;
     // wektor.x = 3;
 
-    Wektor2D wektor, wektor2;
-    wektor.setX(3);
-    wektor.setY(4);
+    Wektor2D wektor{3, 4}, wektor2{6, 8};
+    // wektor.setX(3);
+    // wektor.setY(4);
 
-    wektor2.setX(6);
-    wektor2.setY(8);
+    // wektor2.setX(6);
+    // wektor2.setY(8);
 
+    Wektor2D suma = wektor + wektor2;
+    suma.print();
+
+    double iloczyn = wektor * wektor2;
+    cout << "iloczyn wektorow wynosi " << iloczyn << endl;
     // wektor.print();
     // wektor2.print();
-
-    Algebra suma;
-    suma = wektor + wektor2;
-
-    Algebra iloczyn;
-    iloczyn = wektor * wektor2;
 
     // puts("Hello, World!");
 }

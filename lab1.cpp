@@ -6,32 +6,19 @@ using namespace std;
 class Informer
 {
 public:
-    Informer() { cout << "Konstruuje konstruktor" << endl; }
-
-    ~Informer() { cout << "Destrukcja!" << endl; }
+    Informer() { cout << "Konstruktor Informera" << endl; }
+    ~Informer() { cout << "Destrukcja Informera!" << endl; }
 };
 
 class Wektor2D
 {
 public:
-    static int num_wek;
     Wektor2D()
     {
         ++num_wek;
         cout << "Liczba wektorow: " << num_wek << endl;
         x = 0;
         y = 0;
-        // Informer no_name;
-    }
-
-    Wektor2D(double xx, double yy)
-    {
-        ++num_wek;
-        cout << "Liczba wektorow: " << num_wek << endl;
-        x = xx;
-        y = yy;
-        cout << "x = " << xx << " y = " << yy << endl;
-        // Informer no_name;
     }
 
     ~Wektor2D()
@@ -40,6 +27,22 @@ public:
         --num_wek;
         cout << "Liczba wektorow: " << num_wek << endl;
     }
+
+    static Wektor2D kart(double kart_x, double kart_y)
+    {
+        Wektor2D wektor_kart{kart_x, kart_y};
+        return wektor_kart;
+    }
+
+    static Wektor2D bieg(double bieg_r, double bieg_fi)
+    {
+        Wektor2D wektor_bieg{bieg_r * cos(bieg_fi), bieg_r * sin(bieg_fi)};
+        return wektor_bieg;
+    }
+
+    // Informer informer;
+
+    static int populacja() { return num_wek; }
 
     double norm() { return sqrt(x * x + y * y); }
 
@@ -57,8 +60,20 @@ public:
     double getY() { return y; };
 
 private:
-    double x;
-    double y;
+    static int num_wek;
+    double     x;
+    double     y;
+
+    friend ostream& operator<<(std::ostream& os, const Wektor2D& Vector);
+
+    Wektor2D(double xx, double yy)
+    {
+        ++num_wek;
+        cout << "Liczba wektorow: " << num_wek << endl;
+        x = xx;
+        y = yy;
+        cout << "x = " << xx << " y = " << yy << endl;
+    }
 };
 
 int Wektor2D::num_wek = 0;
@@ -67,7 +82,7 @@ Wektor2D operator+(Wektor2D wek1, Wektor2D wek2)
 {
     double x = wek1.getX() + wek2.getX();
     double y = wek1.getY() + wek2.getY();
-    return Wektor2D{x, y};
+    return Wektor2D::kart(x, y);
 }
 
 double operator*(Wektor2D wek1, Wektor2D wek2)
@@ -75,26 +90,24 @@ double operator*(Wektor2D wek1, Wektor2D wek2)
     return wek1.getX() * wek2.getX() + wek1.getY() * wek2.getY();
 }
 
+ostream& operator<<(ostream& os, const Wektor2D& Vector)
+{
+    os << "[" << Vector.x << ", " << Vector.y << "] ";
+    return os;
+}
+
 int main()
 {
-    // Wektor2D wektor, wektor2(6, 8), wektor3(0, 3);
-    // wektor.y = 4;
-    // wektor.x = 3;
+    Wektor2D wektor1 = Wektor2D::kart(1., 1.);
+    Wektor2D wektor2 = Wektor2D::bieg(1., 1.);
 
-    Wektor2D wektor{3, 4}, wektor2{6, 8};
-    // wektor.setX(3);
-    // wektor.setY(4);
+    // Wektor2D suma = wektor + wektor2;
+    // suma.print();
 
-    // wektor2.setX(6);
-    // wektor2.setY(8);
+    // double iloczyn = wektor * wektor2;
+    // cout << "iloczyn wektorow wynosi " << iloczyn << endl;
 
-    Wektor2D suma = wektor + wektor2;
-    suma.print();
+    // cout << wektor << wektor2 << "\n";
 
-    double iloczyn = wektor * wektor2;
-    cout << "iloczyn wektorow wynosi " << iloczyn << endl;
-    // wektor.print();
-    // wektor2.print();
-
-    // puts("Hello, World!");
+    cout << "Ostatnia linijka kodu\n" << endl;
 }
